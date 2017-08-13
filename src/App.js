@@ -11,16 +11,44 @@ class App extends React.Component {
       dataIndex: 0,
       treeData0: {
                   "name": "Top Level",
+                  "material": "Basic Materials",
+                  "subselectors": "All Subselectors",
                   "children": [
                     { 
-                      "name": "Level 2: A",
+                      "name": "Tim McGough",
+                      "position": "Point72, PM",
                       "children": [
-                        { "name": "Son of A" },
-                        { "name": "Daughter of A" }
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        }
                       ]
                     },
                     { 
-                      "name": "Level 2: B",
+                      "name": "Jane Waldorf",
+                      "position": "Point72, Analyst",
                       "children": [
                         { "name": "Daughter of B" }
                       ]
