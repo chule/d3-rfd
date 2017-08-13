@@ -55,9 +55,9 @@ class Chart extends React.Component {
 
   
   // Set the dimensions and margins of the diagram
-  var margin = {top: 20, right: 90, bottom: 30, left: 90},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+  var margin = {top: 50, right: 10, bottom: 50, left: 10},
+      width = 1140 - margin.left - margin.right,
+      height = 900 - margin.top - margin.bottom;
   
   // append the svg object to the body of the page
   // appends a 'group' element to 'svg'
