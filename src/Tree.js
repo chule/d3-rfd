@@ -55,7 +55,7 @@ class Chart extends React.Component {
 
   
   // Set the dimensions and margins of the diagram
-  var margin = {top: 50, right: 270, bottom: 50, left: 20},
+  var margin = {top: 30, right: 270, bottom: 30, left: 20},
       width = 1140 - margin.left - margin.right,
       height = 1200 - margin.top - margin.bottom;
   
@@ -121,7 +121,7 @@ class Chart extends React.Component {
         .attr("transform", function(d) {
           return "translate(" + source.y0 + "," + source.x0 + ")";
       })
-      //.on('click', click);
+      .on('click', click);
   
     // Add Circle for the nodes
     nodeEnter.append('path')
@@ -167,15 +167,50 @@ class Chart extends React.Component {
     var labelGroup = nodeEnter.append("g")
                   .attr("transform","translate(40,-5)");
     
+    labelGroup.append("rect")
+        .attr("width", 4)
+        .attr("height",88)
+        .attr("transform","translate(-40,-39)")
+        .style("fill", "#ccc")
+        .style("pointer-events","none")
+        .attr("opacity",function(d) {
+          if (!d.parent) {
+            return 1;
+          } else {
+            return 0;
+          }
+        })
+
     labelGroup.append('text')
         .style("fill","black")
-        .text(function(d) { return d.data.name; });
+        .style("font-size", function (d){
+          if (!d.parent) {
+            return 14;
+          } else {
+            return 12;
+          }
+        })
+        .text(function(d) { 
+          if (!d.parent) {
+            return d.data.material;
+          } else {
+            return d.data.name; 
+          }
+          
+        });
   
     labelGroup.append('text')
         .style("fill","darkgrey")
         .attr("y", 18)
         .style("font-size", 11)
-        .text(function(d) { return d.data.position; });
+        .text(function(d) { 
+          if (!d.parent) {
+            return d.data.subselectors;
+          } else {
+            return d.data.position;
+          }
+          
+        });
 
 
     // UPDATE
@@ -252,9 +287,6 @@ class Chart extends React.Component {
   
     // Creates a curved (diagonal) path from parent to the child nodes
     function diagonal(s, d) {
-      console.log(d)
-      console.log(d.y, d.x);
-
       if (!d.parent) {
 
         var path = `M ${s.y} ${s.x}
@@ -273,14 +305,15 @@ class Chart extends React.Component {
   
     // Toggle children on click.
     function click(d) {
-      if (d.children) {
-          d._children = d.children;
-          d.children = null;
-        } else {
-          d.children = d._children;
-          d._children = null;
-        }
-      update(d);
+      console.log(d)
+      // if (d.children) {
+      //     d._children = d.children;
+      //     d.children = null;
+      //   } else {
+      //     d.children = d._children;
+      //     d._children = null;
+      //   }
+      // update(d);
     }
     component.props.animateFauxDOM(800);
 

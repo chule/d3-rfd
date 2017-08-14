@@ -11,11 +11,13 @@ class App extends React.Component {
       dataIndex: 0,
       treeData0: {
                   "name": "Top Level",
+                  "elementPosition": "start",
                   "material": "Basic Materials",
                   "subselectors": "All Subselectors",
                   "children": [
                     { 
                       "name": "Tim McGough",
+                      "elementPosition": "middle",
                       "position": "Point72, PM",
                       "children": [
                         { 
@@ -25,6 +27,7 @@ class App extends React.Component {
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -79,7 +82,7 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
@@ -105,7 +108,7 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
@@ -132,15 +135,17 @@ class App extends React.Component {
                     },
                     { 
                       "name": "Jane Waldorf",
+                      "elementPosition": "middle",
                       "position": "Point72, Analyst",
                       "children": [
                         { 
                           "name": "Eric Jameson",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -163,10 +168,11 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -191,14 +197,16 @@ class App extends React.Component {
                     { 
                       "name": "Jane Waldorf",
                       "position": "Point72, Analyst",
+                      "elementPosition": "middle",
                       "children": [
                         { 
                           "name": "Eric Jameson",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -221,10 +229,11 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -247,10 +256,11 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -273,10 +283,11 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -301,14 +312,16 @@ class App extends React.Component {
                     { 
                       "name": "Jane Waldorf",
                       "position": "Point72, Analyst",
+                      "elementPosition": "middle",
                       "children": [
                         { 
                           "name": "Eric Jameson",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -331,10 +344,11 @@ class App extends React.Component {
                         { 
                           "name": "Jane Waldorf",
                           "position": "Goldman Sasch, Analyst",
-                          "star": "yes",
+                          "star": "no",
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
