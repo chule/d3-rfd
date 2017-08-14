@@ -90,10 +90,10 @@ class Chart extends React.Component {
   
   // Collapse the node and all it's children
   function collapse(d) {
-    if(d.children) {
-      d._children = d.children
-      d._children.forEach(collapse)
-      d.children = null
+    if (d.children) {
+        d._children = d.children
+        d._children.forEach(collapse)
+        d.children = null
     }
   }
   
@@ -121,7 +121,7 @@ class Chart extends React.Component {
         .attr("transform", function(d) {
           return "translate(" + source.y0 + "," + source.x0 + ")";
       })
-      .on('click', click);
+      //.on('click', click);
   
     // Add Circle for the nodes
     nodeEnter.append('path')
@@ -164,19 +164,20 @@ class Chart extends React.Component {
         });
   
     // Add labels for the nodes
-    nodeEnter.append('text')
-        .attr("dy", ".35em")
-        .attr("x", function(d) {
-            //return d.children || d._children ? -13 : 13;
-            return 13
-        })
-        .attr("text-anchor", function(d) {
-            //return d.children || d._children ? "end" : "start";
-            return "start";
-        })
+    var labelGroup = nodeEnter.append("g")
+                  .attr("transform","translate(40,-5)");
+    
+    labelGroup.append('text')
         .style("fill","black")
         .text(function(d) { return d.data.name; });
   
+    labelGroup.append('text')
+        .style("fill","darkgrey")
+        .attr("y", 18)
+        .style("font-size", 11)
+        .text(function(d) { return d.data.position; });
+
+
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
   
