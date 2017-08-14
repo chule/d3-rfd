@@ -55,9 +55,9 @@ class Chart extends React.Component {
 
   
   // Set the dimensions and margins of the diagram
-  var margin = {top: 50, right: 10, bottom: 50, left: 10},
+  var margin = {top: 50, right: 270, bottom: 50, left: 20},
       width = 1140 - margin.left - margin.right,
-      height = 900 - margin.top - margin.bottom;
+      height = 1200 - margin.top - margin.bottom;
   
   // append the svg object to the body of the page
   // appends a 'group' element to 'svg'
@@ -152,20 +152,29 @@ class Chart extends React.Component {
           //d="m24.82031,51.75l239.92969,0l0,-25.875l0,-25.875l-239.92969,0l-24.82031,25.875l24.82031,25.875z"
           //'M8 32 L64 32 L64 16 L64 0 L8 0 L0 16 Z'
         })
-        .attr("transform", "translate(0,-15)")
+        .attr("transform", function (d) {
+          if (!d.parent) {
+            return "translate(0,-44)"
+          } else {
+            return "translate(0,-26)"
+          }
+        })
         .style("fill", function(d) {
-            return "#ddd"// d._children ? "lightsteelblue" : "#fff";
+            return "#ffffff"// d._children ? "lightsteelblue" : "#fff";
         });
   
     // Add labels for the nodes
     nodeEnter.append('text')
         .attr("dy", ".35em")
         .attr("x", function(d) {
-            return d.children || d._children ? -13 : 13;
+            //return d.children || d._children ? -13 : 13;
+            return 13
         })
         .attr("text-anchor", function(d) {
-            return d.children || d._children ? "end" : "start";
+            //return d.children || d._children ? "end" : "start";
+            return "start";
         })
+        .style("fill","black")
         .text(function(d) { return d.data.name; });
   
     // UPDATE
@@ -242,12 +251,22 @@ class Chart extends React.Component {
   
     // Creates a curved (diagonal) path from parent to the child nodes
     function diagonal(s, d) {
-  
-      var path = `M ${s.y} ${s.x}
-              C ${(s.y + d.y) / 2} ${s.x},
-                ${(s.y + d.y) / 2} ${d.x},
-                ${d.y} ${d.x}`
-  
+      console.log(d)
+      console.log(d.y, d.x);
+
+      if (!d.parent) {
+
+        var path = `M ${s.y} ${s.x}
+                C ${(s.y + d.y + 219) / 2} ${s.x},
+                  ${(s.y + d.y + 219) / 2} ${d.x},
+                  ${d.y + 219} ${d.x}`;
+      } else {
+        var path = `M ${s.y} ${s.x}
+                C ${(s.y + d.y + 285) / 2} ${s.x},
+                  ${(s.y + d.y + 285) / 2} ${d.x},
+                  ${d.y + 285} ${d.x}`;
+      } 
+
       return path
     }
   
@@ -262,7 +281,7 @@ class Chart extends React.Component {
         }
       update(d);
     }
-    component.props.animateFauxDOM(800)
+    component.props.animateFauxDOM(800);
 
   }
   
@@ -280,6 +299,6 @@ class Chart extends React.Component {
 //   data: PropTypes.arrayOf(PropTypes.number).isRequired
 // }
 
-const FauxChart = withFauxDOM(Chart)
+const FauxChart = withFauxDOM(Chart);
 
-export default FauxChart
+export default FauxChart;

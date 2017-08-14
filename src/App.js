@@ -50,7 +50,310 @@ class App extends React.Component {
                       "name": "Jane Waldorf",
                       "position": "Point72, Analyst",
                       "children": [
-                        { "name": "Daughter of B" }
+                        { 
+                          "name": "Eric Jameson",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    { 
+                      "name": "Jane Waldorf",
+                      "position": "Point72, Analyst",
+                      "children": [
+                        { 
+                          "name": "Eric Jameson",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    { 
+                      "name": "Jane Waldorf",
+                      "position": "Point72, Analyst",
+                      "children": [
+                        { 
+                          "name": "Eric Jameson",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    { 
+                      "name": "Jane Waldorf",
+                      "position": "Point72, Analyst",
+                      "children": [
+                        { 
+                          "name": "Eric Jameson",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        },
+                        { 
+                          "name": "Jane Waldorf",
+                          "position": "Goldman Sasch, Analyst",
+                          "star": "yes",
+                          "value": "RE",
+                          "education": "University of Washington (2008)",
+                          "info": "12 Years on Buy Side",
+                          "data": [
+                            {
+                              "name": "Style",
+                              "value": "96"
+                            },
+                            {
+                              "name": "Firm",
+                              "value": "82"
+                            },
+                            {
+                              "name": "Edu",
+                              "value": "92"
+                            },
+                            {
+                              "name": "Conn",
+                              "value": "97"
+                            }
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -90,7 +393,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <div>
+      <div style={{"backgroundColor":"#F6F7F9"}}>
         <button onClick={this.changeData}>Change data</button>
         <div>
           {/* <Chart
