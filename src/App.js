@@ -51,6 +51,7 @@ class App extends React.Component {
                     },
                     { 
                       "name": "Jane Waldorf",
+                      "elementPosition": "middle",
                       "position": "Point72, Analyst",
                       "children": [
                         { 
@@ -60,6 +61,7 @@ class App extends React.Component {
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -86,6 +88,7 @@ class App extends React.Component {
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
@@ -112,6 +115,7 @@ class App extends React.Component {
                           "value": "RE",
                           "education": "University of Washington (2008)",
                           "info": "12 Years on Buy Side",
+                          "elementPosition": "end",
                           "data": [
                             {
                               "name": "Style",
