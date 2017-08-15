@@ -286,6 +286,10 @@ class Chart extends React.Component {
         if (d.data.elementPosition === "end") {
           console.log(d)
 
+          var sum = d.data.data.reduce(function (sum, a) { return +a.value + sum; }, 0);
+
+          var avg = Math.round(sum / d.data.data.length);
+
           if (d.data.value) {
             if (d.data.value === "RE") {
               var image = reImg;
@@ -323,6 +327,28 @@ class Chart extends React.Component {
               .attr("xlink:href", image);
 
           }
+
+          d3.select(this).append("text")
+            .attr("transform", "translate(210,11)")
+            .style("fill", "black")
+            .style("text-anchor", "end")
+            .style("font-size", "18")
+            .text(avg);
+
+          d3.select(this).append("rect")
+            .attr('x', 189)
+            .attr('y', 15)
+            .attr('width', 22)
+            .attr('height', 3)
+            .attr("fill", "#D9D7DA");
+
+
+            d3.select(this).append("rect")
+            .attr('x', 189)
+            .attr('y', 15)
+            .attr('width', 22 * (avg/100))
+            .attr('height', 3)
+            .attr("fill", "#4994ED");
 
         }
 
