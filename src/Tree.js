@@ -5,6 +5,9 @@ import * as d3 from 'd3';
 import './styleTree.css';
 import childrenImg from './img/children.png';
 import starImg from './img/star.png';
+import reImg from './img/re.png';
+import hmImg from './img/hm.png';
+import nhImg from './img/nh.png';
 
 
 class Chart extends React.Component {
@@ -280,6 +283,48 @@ class Chart extends React.Component {
 
         }
 
+        if (d.data.elementPosition === "end") {
+          console.log(d)
+
+          if (d.data.value) {
+            if (d.data.value === "RE") {
+              var image = reImg;
+            } else if (d.data.value === "HM") {
+              var image = hmImg;
+            } else if (d.data.value === "NH") {
+              var image = nhImg;
+            }
+          }
+
+
+          if (d.data.star === "yes" && d.data.value) {
+            d3.select(this).append("svg:image")
+              .attr('x', 80)
+              .attr('y', -10)
+              .attr('width', 12)
+              .attr('height', 12)
+              .attr("xlink:href", starImg);
+
+            d3.select(this).append("svg:image")
+              .attr('x', 95)
+              .attr('y', -10)
+              .attr('width', 18)
+              .attr('height', 12)
+              .attr("xlink:href", image);
+
+          }
+
+          if (d.data.star === "no" && d.data.value) {
+            d3.select(this).append("svg:image")
+              .attr('x', 80)
+              .attr('y', -10)
+              .attr('width', 18)
+              .attr('height', 12)
+              .attr("xlink:href", image);
+
+          }
+
+        }
 
       })
 
