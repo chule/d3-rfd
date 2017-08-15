@@ -219,17 +219,23 @@ class Chart extends React.Component {
 
         if (d.data.elementPosition === "middle") {
 
-          let stars = 0;
-          let children = 0;
+          let tempData = d.children.reduce(function (obj, value) {
 
-          d.children.forEach(function (child) {
-            children = + 1;
-            if (child.data.star === "yes") {
-              stars = +1;
+            var tempval = 0;
+
+            if (value.data.star === "yes") {
+              tempval = + 1;
             }
-          })
 
-          if (stars > 0) {
+            return {
+              "stars": obj.stars + tempval,
+              "children": obj.children + 1
+            };
+
+          }, { "stars": 0, "children": 0 });
+
+
+          if (tempData.stars > 0) {
             d3.select(this).append("svg:image")
               .attr('x', 200)
               .attr('y', -10)
@@ -247,16 +253,16 @@ class Chart extends React.Component {
             d3.select(this).append("text")
               .attr("transform", "translate(190,0)")
               .style("fill", "darkgrey")
-              .text(stars)
+              .text(tempData.stars)
 
             d3.select(this).append("text")
               .attr("transform", "translate(190,19)")
               .style("fill", "darkgrey")
-              .text(children)
+              .text(tempData.children)
 
           }
 
-          if (stars === 0) {
+          if (tempData.stars === 0) {
 
             d3.select(this).append("svg:image")
               .attr('x', 200)
@@ -268,7 +274,7 @@ class Chart extends React.Component {
             d3.select(this).append("text")
               .attr("transform", "translate(190,11)")
               .style("fill", "darkgrey")
-              .text(children)
+              .text(tempData.children)
 
           }
 
