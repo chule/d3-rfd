@@ -44,6 +44,7 @@ class Chart extends React.Component {
 
     // This will create a faux div and store its virtual DOM in state.chart
     var faux = this.props.connectFauxDOM('div', 'chart');
+    var dataId = null;
 
     /*
        D3 code below by Alan Smith, http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
@@ -99,41 +100,41 @@ class Chart extends React.Component {
     // collapse(root)
 
 
-    function visEach(root, node) {
-      
-      var counter = 0;
+    // function visEach(root, node) {
 
-      console.log(counter)
-      root.eachAfter(function(d)  {
-        d3.select(d.node)
-          .selectAll('path')
-          .transition()
-          .delay(counter*200)
-          .style("fill","red");
-        counter++;
-      });
-    }
+    //   var counter = 0;
+
+    //   console.log(counter)
+    //   root.eachAfter(function(d)  {
+    //     d3.select(d.node)
+    //       .selectAll('path')
+    //       .transition()
+    //       .delay(counter*200)
+    //       .style("fill","red");
+    //     counter++;
+    //   });
+    // }
 
 
     update(root);
 
     // Collapse the node and all it's children
-    function collapse(d) {
-      if (d.children) {
-        d._children = d.children
-        d._children.forEach(collapse)
-        d.children = null
-      }
-    }
+    // function collapse(d) {
+    //   if (d.children) {
+    //     d._children = d.children
+    //     d._children.forEach(collapse)
+    //     d.children = null
+    //   }
+    // }
 
-    function update(source) {
+    function update(source, index) {
 
       // Assigns the x and y position for the nodes
       var treeData = treemap(root);
 
       // Compute the new tree layout.
       var nodes = treeData.descendants(),
-          links = treeData.descendants().slice(1);
+        links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
       //nodes.forEach(function(d){ d.y = d.depth * 180});
@@ -199,7 +200,7 @@ class Chart extends React.Component {
 
       labelGroup.each(function (d) {
 
-        let group = this;
+        //let group = this;
 
         if (d.data.elementPosition === "start") {
           d3.select(this).append("rect")
@@ -323,13 +324,14 @@ class Chart extends React.Component {
 
           var avg = Math.round(sum / d.data.data.length);
 
+          var image;
           if (d.data.value) {
             if (d.data.value === "RE") {
-              var image = reImg;
+              image = reImg;
             } else if (d.data.value === "HM") {
-              var image = hmImg;
+              image = hmImg;
             } else if (d.data.value === "NH") {
-              var image = nhImg;
+              image = nhImg;
             }
           }
 
@@ -403,8 +405,9 @@ class Chart extends React.Component {
             //.style("pointer-events", "none")
             .on("click", function (d) {
               component.props.animateFauxDOM(200);
-              console.log(d)
-              click(d.parent);
+              //console.log(d)
+
+              click(d);
               //d3.select(this.parentNode).select("g").raise();
 
               //visEach(root,d);
@@ -461,7 +464,13 @@ class Chart extends React.Component {
       nodeUpdate.transition()
         .duration(duration)
         .attr("transform", function (d) {
-          return "translate(" + d.y + "," + d.x + ")";
+          //console.log(d)
+          if (index && index < d.id) {
+            return "translate(" + d.y + "," + (d.x + 150) + ")";
+          } else {
+            return "translate(" + d.y + "," + d.x + ")";
+          }
+
         });
 
       // Update the node attributes and style
@@ -473,13 +482,13 @@ class Chart extends React.Component {
       //   .attr('cursor', 'pointer');
 
 
-      // Remove any exiting nodes
-      // var nodeExit = node.exit().transition()
-      //   .duration(duration)
-      //   .attr("transform", function (d) {
-      //     return "translate(" + source.y + "," + source.x + ")";
-      //   })
-      //   .remove();
+      //Remove any exiting nodes
+      var nodeExit = node.exit().transition()
+        .duration(duration)
+        .attr("transform", function (d) {
+          return "translate(" + source.y + "," + source.x + ")";
+        })
+        .remove();
 
       // On exit reduce the node circles size to 0
       // nodeExit.select('circle')
@@ -528,18 +537,31 @@ class Chart extends React.Component {
 
       // Creates a curved (diagonal) path from parent to the child nodes
       function diagonal(s, d) {
-        if (!d.parent) {
 
-          var path = `M ${s.y} ${s.x}
-                C ${(s.y + d.y + 219) / 2} ${s.x},
-                  ${(s.y + d.y + 219) / 2} ${d.x},
-                  ${d.y + 219} ${d.x}`;
+
+        var path;
+
+        if (index && index < s.id) {
+          path = `M ${s.y} ${s.x + 150}
+                  C ${(s.y + d.y + 285) / 2} ${s.x + 150},
+                    ${(s.y + d.y + 285) / 2} ${d.x},
+                    ${d.y + 285} ${d.x}`;
+
         } else {
-          var path = `M ${s.y} ${s.x}
-                C ${(s.y + d.y + 285) / 2} ${s.x},
-                  ${(s.y + d.y + 285) / 2} ${d.x},
-                  ${d.y + 285} ${d.x}`;
+          if (!d.parent) {
+            path = `M ${s.y} ${s.x}
+                  C ${(s.y + d.y + 219) / 2} ${s.x},
+                    ${(s.y + d.y + 219) / 2} ${d.x},
+                    ${d.y + 219} ${d.x}`;
+          } else {
+            path = `M ${s.y} ${s.x}
+                  C ${(s.y + d.y + 285) / 2} ${s.x},
+                    ${(s.y + d.y + 285) / 2} ${d.x},
+                    ${d.y + 285} ${d.x}`;
+          }
         }
+
+
 
         return path;
       }
@@ -559,9 +581,9 @@ class Chart extends React.Component {
 
 
       function click(d) {
-        console.log(d)
 
 
+        // d = d.parent
 
         // if (d.children) {
         //     d._children = d.children;
@@ -570,7 +592,28 @@ class Chart extends React.Component {
         //     d.children = d._children;
         //     d._children = null;
         //   }
-        update(d);
+
+        //node.eachBefore(function (d) {
+        //if (d.data.elementPosition === "end") {
+        // d.y0 = d.y;
+        // d.y = d.y + 200;ß
+        //}
+        //})
+
+        //node.parent.children = null;
+
+        //d.children = null;
+        if (dataId === d.id) {
+          dataId = null;
+          update(d);
+        } else {
+          update(d, d.id);
+          dataId = d.id;
+        }
+
+        
+
+      //console.log(dataId,d.id)
       }
 
       component.props.animateFauxDOM(800);
