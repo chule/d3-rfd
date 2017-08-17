@@ -8,8 +8,10 @@ import starImg from './img/star.png';
 import reImg from './img/re.png';
 import hmImg from './img/hm.png';
 import nhImg from './img/nh.png';
-import downIcon from './img/downIcon.png';
-
+//import downIcon from './img/downIcon.png';
+import downIcon from './img/downIcon1.png';
+import upIcon from './img/upIcon1.png';
+import viewProfile from './img/viewProfile.png';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -352,7 +354,7 @@ class Chart extends React.Component {
               .attr('height', 12)
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
-                console.log("re hm nh");
+                //console.log("re hm nh");
               });
           }
 
@@ -364,11 +366,14 @@ class Chart extends React.Component {
               .attr('height', 12)
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
-                console.log("re hm nh");
+                //console.log("re hm nh");
               });
           }
 
-          d3.select(this).append("text")
+          var percentageGroup = d3.select(this).append("g").attr("class", "percentageGroup");
+
+          percentageGroup
+            .append("text")
             .attr("transform", "translate(210,11)")
             .style("fill", "black")
             .style("text-anchor", "end")
@@ -376,7 +381,8 @@ class Chart extends React.Component {
             .style("pointer-events", "none")
             .text(avg);
 
-          d3.select(this).append("rect")
+          percentageGroup
+            .append("rect")
             .attr('x', 189)
             .attr('y', 15)
             .attr('width', 22)
@@ -385,7 +391,8 @@ class Chart extends React.Component {
             .attr("fill", "#D9D7DA");
 
 
-          d3.select(this).append("rect")
+          percentageGroup
+            .append("rect")
             .attr('x', 189)
             .attr('y', 15)
             .attr('width', 22 * (avg / 100))
@@ -394,59 +401,229 @@ class Chart extends React.Component {
             .attr("fill", "#4994ED");
 
           let icon = d3.select(this).append("svg:image")
-            .attr('x', 180)
-            .attr('y', -13)
-            .attr('width', 40)
-            .attr('height', 40)
+            .attr('x', 190)
+            .attr('y', 0)
+            .attr('width', 15)
+            .attr('height', 15)
             .attr("class", "downIcon")
             .attr("xlink:href", downIcon)
             .style("opacity", 0)
             .style("cursor", "pointer")
             //.style("pointer-events", "none")
             .on("click", function (d) {
-              component.props.animateFauxDOM(200);
+              component.props.animateFauxDOM(800);
               //console.log(d)
 
               click(d);
-              //d3.select(this.parentNode).select("g").raise();
 
-              //visEach(root,d);
-              //d3.select(this).attr("transform","rotate(180)")
-              // let expanded = nodeEnter.append("g")
 
-              // expanded.append("rect")
-              //   .attr('x', -15)
-              //   .attr('y', 33)
-              //   .attr('width', 239)
-              //   .attr('height', 200)
+
+
+              if (dataId === d.id) {
+                svg.selectAll(".downIcon").attr("xlink:href", downIcon)
+                  .style("opacity", 0);
+                d3.select(this).attr("xlink:href", upIcon)
+                  .style("opacity", 1);
+
+                svg.selectAll(".percentageGroup")
+                  .style("opacity", 1);
+                percentageGroup.style("opacity", 0);
+
+                svg.selectAll(".expanded").remove();
+
+                // svg.selectAll(".expanded")
+                // .transition()
+                // .duration(800)
+                // .attr('height', 0)
+                // .remove();
+
+                var expanedColors = ["#FC737E", "#4398EE", "#38D2C8", "#B33DD7"];
+
+                var expanded = d3.select(this.parentNode).append("g")
+                  .attr("class", "expanded")
+                //.style("opacity",0);
+
+                expanded.append("rect")
+                  .attr('x', -15)
+                  .attr('y', 31)
+                  .attr('width', 239)
+                  .attr('height', 0)
+                  .style("fill", "white")
+                  .transition()
+                  .duration(400)
+                  .attr('height', 150)
+
+                var percentagesExpanded = expanded.selectAll("g")
+                  .data(d.data.data)
+                  .enter()
+                  .append("g")
+                  .attr("transform", function (d, i) {
+                    return "translate(" + (15 + (i * 53)) + ",50)";
+                  });
+
+                percentagesExpanded
+                  .append("text")
+                  .attr("transform", "translate(21,0)")
+                  .style("fill", "black")
+                  .style("text-anchor", "end")
+                  .style("font-size", 18)
+                  .style("pointer-events", "none")
+                  .text(function (d) {
+                    return d.value;
+                  });
+
+                percentagesExpanded
+                  .append("rect")
+                  .attr('x', 0)
+                  .attr('y', 5)
+                  .attr('width', 22)
+                  .attr('height', 3)
+                  .style("pointer-events", "none")
+                  .attr("fill", "#D9D7DA");
+
+
+                percentagesExpanded
+                  .append("rect")
+                  .attr('x', 0)
+                  .attr('y', 5)
+                  .attr('width', function (d) {
+                    return 22 * (d.value / 100)
+                  })
+                  .attr('height', 3)
+                  .style("pointer-events", "none")
+                  .attr("fill", function (d, i) {
+                    return expanedColors[i];
+                  });
+
+                percentagesExpanded
+                  .append("text")
+                  .attr("transform", "translate(11,20)")
+                  .style("fill", "darkgrey")
+                  .style("text-anchor", "middle")
+                  .style("font-size", 10)
+                  .style("pointer-events", "none")
+                  .text(function (d) {
+                    return d.name;
+                  });
+
+                expanded.append("text")
+                  .attr("transform", "translate(100,100)")
+                  .style("fill", "darkgrey")
+                  .style("text-anchor", "middle")
+                  .style("font-size", 11)
+                  .style("pointer-events", "none")
+                  .text(function (d) {
+                    return d.data.education;
+                  });
+
+                expanded.append("text")
+                  .attr("transform", "translate(100,120)")
+                  .style("fill", "darkgrey")
+                  .style("text-anchor", "middle")
+                  .style("font-size", 11)
+                  .style("pointer-events", "none")
+                  .text(function (d) {
+                    return d.data.info;
+                  });
+
+                expanded.append("svg:image")
+                  .attr('x', 65)
+                  .attr('y', 137)
+                  .attr('width', 72)
+                  .attr('height', 24)
+                  .attr("xlink:href", viewProfile)
+                  .style("opacity", 1)
+                  .style("cursor", "pointer")
+                  .on("click", function (d) {
+                    window.open('http://google.com', '_blank');
+                  });
+
+
+              } else {
+
+                svg.selectAll(".percentageGroup")
+                  .style("opacity", 1);
+                percentageGroup.style("opacity", 0);
+                d3.select(this).attr("xlink:href", downIcon);
+
+                // percentagesExpanded
+                //   .remove();
+
+                svg.selectAll(".expanded").remove();
+
+              }
+
 
             })
             .on("mouseover", function (d) {
+              percentageGroup.style("opacity", 0);
               d3.select(this).style("opacity", 1);
             });
 
 
-          //.style("fill","white")
+
 
           //expanded.moveToFront();
 
           d3.select(this.parentNode).select("path")
             .on("mouseover", function (d) {
-              //console.log(d3.select(this.parentNode).select("g").select(".downIcon"));
-              component.props.animateFauxDOM(200);
-              //d3.select(this.parentNode).select("g").select(".downIcon")
-              icon//.style("pointer-events", "all")
+              // console.log(d3.select(this.parentNode).select("g").select(".downIcon"));
+
+              // //d3.select(this.parentNode).select("g").select(".downIcon")
+              // icon//.style("pointer-events", "all")
+              //   .style("opacity", 1);
+
+              // percentageGroup.style("opacity", 0);
+
+              // console.log(dataId, d.id)
+
+              svg.selectAll(".percentageGroup")
                 .style("opacity", 1);
 
-              //console.log(d3.select(this.parentNode).select("g").select(".downIcon"))
+              percentageGroup.style("opacity", 0);
+
+              svg.selectAll(".downIcon")
+                .style("opacity", 0);
+
+              icon.style("opacity", 1);
+
+              // if (dataId === d.id) {
+              //   // svg.selectAll(".downIcon")
+              //   //   .style("opacity", 0);
+
+              //   // icon
+              //   //   .style("opacity", 1);
+
+              //   // svg.selectAll(".percentageGroup")
+              //   //   .style("opacity", 0);
+              //   // percentageGroup.style("opacity", 0);
+              // } else {
+              //   svg.selectAll(".percentageGroup")
+              //     .style("opacity", 1);
+              //   percentageGroup.style("opacity", 0);
+
+              //   svg.selectAll(".downIcon")
+              //     .style("opacity", 0);
+
+              //   icon.style("opacity", 1);
+
+              //}
+              component.props.animateFauxDOM(200);
 
 
             })
             .on("mouseout", function (d) {
               //component.props.animateFauxDOM(200);
               //d3.select(this.parentNode).select("g").select(".downIcon")
-              icon//.style("pointer-events", "none")
-                .style("opacity", 0);
+              // icon//.style("pointer-events", "none")
+              //   .style("opacity", 0)
+
+              // //console.log();
+
+              // // d3.select(this.parentNode).select("g").select(".downIcon")
+              // //   .attr("xlink:href", downIcon);
+
+              // percentageGroup.style("opacity", 1);
             })
         }
 
@@ -611,9 +788,9 @@ class Chart extends React.Component {
           dataId = d.id;
         }
 
-        
 
-      //console.log(dataId,d.id)
+
+        //console.log(dataId,d.id)
       }
 
       component.props.animateFauxDOM(800);
