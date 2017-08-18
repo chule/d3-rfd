@@ -446,7 +446,7 @@ class Chart extends React.Component {
 
                 var expanded = d3.select(this.parentNode).append("g")
                   .attr("class", "expanded")
-                  //.style("opacity",0);
+                //.style("opacity",0);
 
                 expanded.append("rect")
                   .attr('x', -15)
@@ -462,7 +462,7 @@ class Chart extends React.Component {
                   .data(d.data.data)
                   .enter()
                   .append("g")
-                  .style("opacity",0)
+                  .style("opacity", 0)
                   .attr("transform", function (d, i) {
                     return "translate(" + (15 + (i * 53)) + ",50)";
                   });
@@ -512,15 +512,15 @@ class Chart extends React.Component {
                     return d.name;
                   });
 
-                  percentagesExpanded
+                percentagesExpanded
                   .transition(t)
                   .delay(300)
-                  .style("opacity",1)
+                  .style("opacity", 1)
 
                 expanded.append("text")
-                  .attr("transform", "translate(100,100)")
+                  .attr("transform", "translate(103,100)")
                   .style("fill", "darkgrey")
-                  .style("opacity",0)
+                  .style("opacity", 0)
                   .style("text-anchor", "middle")
                   .style("font-size", 11)
                   .style("pointer-events", "none")
@@ -529,14 +529,14 @@ class Chart extends React.Component {
                   })
                   .transition(t)
                   .delay(350)
-                  .style("opacity",1);
+                  .style("opacity", 1);
 
 
 
                 expanded.append("text")
-                  .attr("transform", "translate(100,120)")
+                  .attr("transform", "translate(103,120)")
                   .style("fill", "darkgrey")
-                  .style("opacity",0)
+                  .style("opacity", 0)
                   .style("text-anchor", "middle")
                   .style("font-size", 11)
                   .style("pointer-events", "none")
@@ -545,10 +545,10 @@ class Chart extends React.Component {
                   })
                   .transition(t)
                   .delay(350)
-                  .style("opacity",1);
+                  .style("opacity", 1);
 
                 var expandedLink = expanded.append("svg:image")
-                  .attr('x', 65)
+                  .attr('x', 67)
                   .attr('y', 137)
                   .attr('width', 72)
                   .attr('height', 24)
@@ -560,19 +560,18 @@ class Chart extends React.Component {
                 expandedLink.on("click", function (d) {
                   window.open('http://google.com', '_blank');
                 })
-                .transition(t)
-                .delay(400)
-                .style("opacity",1)
+                  .transition(t)
+                  .delay(400)
+                  .style("opacity", 1)
 
                 // expanded
                 //   .transition()
                 //   .duration(750)
                 //   .style("opacity", 1);
-                  
+
                 //component.props.animateFauxDOM(200);
-              } 
-              else 
-              {
+              }
+              else {
 
                 svg.selectAll(".percentageGroup")
                   .style("opacity", 1);
@@ -591,6 +590,8 @@ class Chart extends React.Component {
             .on("mouseover", function (d) {
               //percentageGroup.style("opacity", 0);
               d3.select(this).style("opacity", 1);
+
+              percentageGroup.style("opacity", 0);
             });
 
 
@@ -648,9 +649,11 @@ class Chart extends React.Component {
             .on("mouseout", function (d) {
               //component.props.animateFauxDOM(200);
               //d3.select(this.parentNode).select("g").select(".downIcon")
-              // icon//.style("pointer-events", "none")
-              //   .style("opacity", 0)
+              icon//.style("pointer-events", "none")
+                .style("opacity", 0);
 
+              percentageGroup.style("opacity", 1);
+              component.props.animateFauxDOM(200);
               // //console.log();
 
               // // d3.select(this.parentNode).select("g").select(".downIcon")
