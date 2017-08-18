@@ -437,11 +437,16 @@ class Chart extends React.Component {
                 // .attr('height', 0)
                 // .remove();
 
+                var t = d3.transition()
+                  .duration(750)
+                  .ease(d3.easeLinear);
+
+
                 var expanedColors = ["#FC737E", "#4398EE", "#38D2C8", "#B33DD7"];
 
                 var expanded = d3.select(this.parentNode).append("g")
                   .attr("class", "expanded")
-                //.style("opacity",0);
+                  //.style("opacity",0);
 
                 expanded.append("rect")
                   .attr('x', -15)
@@ -449,14 +454,15 @@ class Chart extends React.Component {
                   .attr('width', 239)
                   .attr('height', 0)
                   .style("fill", "white")
-                  .transition()
-                  .duration(400)
+                  .transition(t)
+                  .delay(300)
                   .attr('height', 150)
 
                 var percentagesExpanded = expanded.selectAll("g")
                   .data(d.data.data)
                   .enter()
                   .append("g")
+                  .style("opacity",0)
                   .attr("transform", function (d, i) {
                     return "translate(" + (15 + (i * 53)) + ",50)";
                   });
@@ -506,40 +512,67 @@ class Chart extends React.Component {
                     return d.name;
                   });
 
+                  percentagesExpanded
+                  .transition(t)
+                  .delay(300)
+                  .style("opacity",1)
+
                 expanded.append("text")
                   .attr("transform", "translate(100,100)")
                   .style("fill", "darkgrey")
+                  .style("opacity",0)
                   .style("text-anchor", "middle")
                   .style("font-size", 11)
                   .style("pointer-events", "none")
                   .text(function (d) {
                     return d.data.education;
-                  });
+                  })
+                  .transition(t)
+                  .delay(350)
+                  .style("opacity",1);
+
+
 
                 expanded.append("text")
                   .attr("transform", "translate(100,120)")
                   .style("fill", "darkgrey")
+                  .style("opacity",0)
                   .style("text-anchor", "middle")
                   .style("font-size", 11)
                   .style("pointer-events", "none")
                   .text(function (d) {
                     return d.data.info;
-                  });
+                  })
+                  .transition(t)
+                  .delay(350)
+                  .style("opacity",1);
 
-                expanded.append("svg:image")
+                var expandedLink = expanded.append("svg:image")
                   .attr('x', 65)
                   .attr('y', 137)
                   .attr('width', 72)
                   .attr('height', 24)
                   .attr("xlink:href", viewProfile)
-                  .style("opacity", 1)
+                  .style("opacity", 0)
                   .style("cursor", "pointer")
-                  .on("click", function (d) {
-                    window.open('http://google.com', '_blank');
-                  });
 
 
-              } else {
+                expandedLink.on("click", function (d) {
+                  window.open('http://google.com', '_blank');
+                })
+                .transition(t)
+                .delay(400)
+                .style("opacity",1)
+
+                // expanded
+                //   .transition()
+                //   .duration(750)
+                //   .style("opacity", 1);
+                  
+                //component.props.animateFauxDOM(200);
+              } 
+              else 
+              {
 
                 svg.selectAll(".percentageGroup")
                   .style("opacity", 1);
@@ -556,7 +589,7 @@ class Chart extends React.Component {
 
             })
             .on("mouseover", function (d) {
-              percentageGroup.style("opacity", 0);
+              //percentageGroup.style("opacity", 0);
               d3.select(this).style("opacity", 1);
             });
 
