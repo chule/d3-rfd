@@ -383,13 +383,18 @@ class Chart extends React.Component {
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
 
-                var x = d.y + 112;
-                var y = d.x - 10;
+                var x, y;
+                if (dataId && dataId < d.id) {
+                  x = d.y + 112;
+                  y = d.x - 10 + 150;
+                } else {
+                  x = d.y + 112;
+                  y = d.x - 10;
+                };
 
                 d3.select(".chartTooltip").style("opacity", 1)
                   .attr("transform", "translate(" + [x, y] + ")")
-                  .transition()
-                  .style("opacity", 1)
+                  .style("opacity", 1);
 
                 d3.select(".chartTooltip text")
                   .text(function () {
@@ -398,9 +403,9 @@ class Chart extends React.Component {
                     return d.data.value === "RE" ? "RE ?"
                       : d.data.value === "HM" ? "Has Met"
                         : "NH ?";
-                  })
+                  });
 
-
+                component.props.animateFauxDOM(200);
               })
               .on("mouseout", function (d) {
                 d3.select(".chartTooltip").style("opacity", 0)
@@ -415,28 +420,32 @@ class Chart extends React.Component {
               .attr('height', 12)
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
-
-                var x = d.y + 97;
-                var y = d.x - 10;
+                var x, y;
+                if (dataId && dataId < d.id) {
+                  x = d.y + 97;
+                  y = d.x - 10 + 150;
+                } else {
+                  x = d.y + 97;
+                  y = d.x - 10;
+                };
 
                 d3.select(".chartTooltip").style("opacity", 1)
                   .attr("transform", "translate(" + [x, y] + ")")
-                  .transition()
-                  .style("opacity", 1)
+                  .style("opacity", 1);
 
                 d3.select(".chartTooltip text")
                   .text(function () {
 
-
                     return d.data.value === "RE" ? "RE ?"
                       : d.data.value === "HM" ? "Has Met"
                         : "NH ?";
-                  })
+                  });
 
 
               })
               .on("mouseout", function (d) {
-                d3.select(".chartTooltip").style("opacity", 0)
+                d3.select(".chartTooltip").style("opacity", 0);
+
               });
           }
 
@@ -662,6 +671,8 @@ class Chart extends React.Component {
               d3.select(this).style("opacity", 1);
 
               percentageGroup.style("opacity", 0);
+
+
             });
 
 
