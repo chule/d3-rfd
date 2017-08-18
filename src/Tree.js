@@ -78,6 +78,34 @@ class Chart extends React.Component {
     // append the svg object to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
+
+    var defs = svgDoc.append("defs");
+
+    var filter = defs.append("filter")
+      .attr("id", "linechart-drop-shadow")
+      .attr("width", "130%")
+      .attr("height", "130%");
+
+    filter.append("feGaussianBlur")
+      .attr("in", "SourceAlpha")
+      .attr("stdDeviation", 3);
+
+
+    filter.append("feOffset")
+      .attr("dx", 1)
+      .attr("dy", 1)
+      .attr("result", "offsetBlur");
+
+    var feComponentTransfer = filter.append("feComponentTransfer");
+    feComponentTransfer.append("feFuncA")
+      .attr("type", "linear")
+      .attr("slope", 0.2);
+
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode");
+    feMerge.append("feMergeNode")
+      .attr("in", "SourceGraphic");
+
     var svg = svgDoc
       .attr("width", width + margin.right + margin.left)
       .attr("height", height + margin.top + margin.bottom)
@@ -354,7 +382,28 @@ class Chart extends React.Component {
               .attr('height', 12)
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
-                //console.log("re hm nh");
+
+                var x = d.y + 112;
+                var y = d.x - 10;
+
+                d3.select(".chartTooltip").style("opacity", 1)
+                  .attr("transform", "translate(" + [x, y] + ")")
+                  .transition()
+                  .style("opacity", 1)
+
+                d3.select(".chartTooltip text")
+                  .text(function () {
+
+
+                    return d.data.value === "RE" ? "RE ?"
+                      : d.data.value === "HM" ? "Has Met"
+                        : "NH ?";
+                  })
+
+
+              })
+              .on("mouseout", function (d) {
+                d3.select(".chartTooltip").style("opacity", 0)
               });
           }
 
@@ -366,7 +415,28 @@ class Chart extends React.Component {
               .attr('height', 12)
               .attr("xlink:href", image)
               .on("mouseover", function (d) {
-                //console.log("re hm nh");
+
+                var x = d.y + 97;
+                var y = d.x - 10;
+
+                d3.select(".chartTooltip").style("opacity", 1)
+                  .attr("transform", "translate(" + [x, y] + ")")
+                  .transition()
+                  .style("opacity", 1)
+
+                d3.select(".chartTooltip text")
+                  .text(function () {
+
+
+                    return d.data.value === "RE" ? "RE ?"
+                      : d.data.value === "HM" ? "Has Met"
+                        : "NH ?";
+                  })
+
+
+              })
+              .on("mouseout", function (d) {
+                d3.select(".chartTooltip").style("opacity", 0)
               });
           }
 
@@ -464,7 +534,7 @@ class Chart extends React.Component {
                   .append("g")
                   .style("opacity", 0)
                   .attr("transform", function (d, i) {
-                    return "translate(" + (15 + (i * 53)) + ",50)";
+                    return "translate(" + (15 + (i * 53)) + ",52)";
                   });
 
                 percentagesExpanded
@@ -528,7 +598,7 @@ class Chart extends React.Component {
                     return d.data.education;
                   })
                   .transition(t)
-                  .delay(350)
+                  .delay(400)
                   .style("opacity", 1);
 
 
@@ -544,7 +614,7 @@ class Chart extends React.Component {
                     return d.data.info;
                   })
                   .transition(t)
-                  .delay(350)
+                  .delay(450)
                   .style("opacity", 1);
 
                 var expandedLink = expanded.append("svg:image")
@@ -561,7 +631,7 @@ class Chart extends React.Component {
                   window.open('http://google.com', '_blank');
                 })
                   .transition(t)
-                  .delay(400)
+                  .delay(500)
                   .style("opacity", 1)
 
                 // expanded
@@ -696,7 +766,8 @@ class Chart extends React.Component {
 
 
       //Remove any exiting nodes
-      var nodeExit = node.exit().transition()
+      //var nodeExit = 
+      node.exit().transition()
         .duration(duration)
         .attr("transform", function (d) {
           return "translate(" + source.y + "," + source.x + ")";
@@ -734,7 +805,8 @@ class Chart extends React.Component {
         .attr('d', function (d) { return diagonal(d, d.parent) });
 
       // Remove any exiting links
-      var linkExit = link.exit().transition()
+      // var linkExit = 
+      link.exit().transition()
         .duration(duration)
         .attr('d', function (d) {
           var o = { x: source.x, y: source.y }
@@ -792,6 +864,28 @@ class Chart extends React.Component {
       //   update(d);
       // }
 
+
+      var svgTooltip = svg.append("g")
+        .attr("class", "chartTooltip")
+        .style("pointer-events", "none")
+        .style("opacity", 0);
+
+
+      svgTooltip.append("path")
+        .attr("d", "M64 48 L64 16 L0 16 L0 48 L26 48 L32 54 L38 48 Z")
+        .attr("fill", "white")
+        //.attr("stroke", "lightgrey")
+        .style("filter", "url(#linechart-drop-shadow)")
+        .attr("transform", "translate(0, -65)");
+
+      svgTooltip.append("text")
+        .attr("class", "tooltipText")
+        .text("")
+        .style("font-family", "sans-serif")
+        .style("font-size", 11)
+        .style("fill", "darkgrey")
+        .style("text-anchor", "middle")
+        .attr("transform", "translate(32, -29)");
 
       function click(d) {
 
