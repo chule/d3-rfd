@@ -8,7 +8,6 @@ import starImg from './img/star.png';
 import reImg from './img/re.png';
 import hmImg from './img/hm.png';
 import nhImg from './img/nh.png';
-//import downIcon from './img/downIcon.png';
 import downIcon from './img/downIcon1.png';
 import upIcon from './img/upIcon1.png';
 import viewProfile from './img/viewProfile.png';
@@ -16,7 +15,7 @@ import viewProfile from './img/viewProfile.png';
 class Chart extends React.Component {
   constructor(props) {
     super(props);
-    this.renderD3 = this.renderD3.bind(this)
+    this.renderD3 = this.renderD3.bind(this);
   }
 
   componentDidMount() {
@@ -47,17 +46,6 @@ class Chart extends React.Component {
     // This will create a faux div and store its virtual DOM in state.chart
     var faux = this.props.connectFauxDOM('div', 'chart');
     var dataId = null;
-
-    /*
-       D3 code below by Alan Smith, http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
-       The only changes made for this example are...
-       1) feeding D3 the faux node created above
-       2) calling this.animateFauxDOM(duration) after each animation kickoff
-       3) move data generation and button code to parent component
-       4) data and title provided as props by parent component
-       5) reattach to faux dom for updates
-       6) move rejoining of data and chart updates to updateD3()
-    */
 
     d3.select(faux).select("svg").remove();
 
@@ -130,22 +118,6 @@ class Chart extends React.Component {
     // collapse(root)
 
 
-    // function visEach(root, node) {
-
-    //   var counter = 0;
-
-    //   console.log(counter)
-    //   root.eachAfter(function(d)  {
-    //     d3.select(d.node)
-    //       .selectAll('path')
-    //       .transition()
-    //       .delay(counter*200)
-    //       .style("fill","red");
-    //     counter++;
-    //   });
-    // }
-
-
     update(root);
 
     // Collapse the node and all it's children
@@ -172,6 +144,7 @@ class Chart extends React.Component {
       // ****************** Nodes section ***************************
 
       // Update the nodes...
+
       var node = svg.selectAll('g.node')
         .data(nodes, function (d) { return d.id || (d.id = ++i); });
 
@@ -189,38 +162,28 @@ class Chart extends React.Component {
         //.attr('r', 1e-6)
         .attr("d", function (d, i) {
 
-          if (!d.parent) {
+          if (d.depth === 0) {
             return 'm0,88l192.28125,0l27.46875,-44l-27.46875,-44l-192.28125,0l0,88z';
           }
 
-          if (d.parent && d.children) {
+          if (d.depth === 1) {
             return 'm27.15527,51.875l235.3457,0l27.15527,-25.9375l-27.15527,-25.9375l-235.3457,0l-27.15527,25.9375l27.15527,25.9375z';
           }
 
-          if (!d.children) {
+          if (d.depth === 2) {
             return 'm24.82031,51.75l239.92969,0l0,-25.875l0,-25.875l-239.92969,0l-24.82031,25.875l24.82031,25.875z';
           }
 
-
-          //start
-          // d="m0,88l192.28125,0l27.46875,-44l-27.46875,-44l-192.28125,0l0,88z" id="svg_1"
-          //'M0 32 L48 32 L58 16 L48 0 L0 0 L0 16 Z'
-          //middle
-          //d="m27.15527,51.875l235.3457,0l27.15527,-25.9375l-27.15527,-25.9375l-235.3457,0l-27.15527,25.9375l27.15527,25.9375z"
-          //'M8 32 L56 32 L64 16 L56 0 L8 0 L0 16 Z'
-          //end
-          //d="m24.82031,51.75l239.92969,0l0,-25.875l0,-25.875l-239.92969,0l-24.82031,25.875l24.82031,25.875z"
-          //'M8 32 L64 32 L64 16 L64 0 L8 0 L0 16 Z'
         })
         .attr("transform", function (d) {
-          if (!d.parent) {
+          if (d.depth === 0) {
             return "translate(0,-44)"
           } else {
             return "translate(0,-26)"
           }
         })
         .style("fill", function (d) {
-          return "#ffffff"// d._children ? "lightsteelblue" : "#fff";
+          return "#ffffff";
         });
 
       // Add labels for the nodes
@@ -232,7 +195,7 @@ class Chart extends React.Component {
 
         //let group = this;
 
-        if (d.data.elementPosition === "start") {
+        if (d.depth === 0) {
           d3.select(this).append("rect")
             .attr("width", 4)
             .attr("height", 88)
@@ -259,7 +222,7 @@ class Chart extends React.Component {
 
         }
 
-        if (d.data.elementPosition === "middle" || d.data.elementPosition === "end") {
+        if (d.depth === 1 || d.depth === 2) {
 
           d3.select(this).append('text')
             .style("fill", "black")
@@ -280,7 +243,7 @@ class Chart extends React.Component {
 
         }
 
-        if (d.data.elementPosition === "middle") {
+        if (d.depth === 1) {
 
           let tempData = d.children.reduce(function (obj, value) {
 
@@ -348,7 +311,7 @@ class Chart extends React.Component {
 
         }
 
-        if (d.data.elementPosition === "end") {
+        if (d.depth === 2) {
 
           var sum = d.data.data.reduce(function (sum, a) { return +a.value + sum; }, 0);
 
@@ -398,7 +361,6 @@ class Chart extends React.Component {
 
                 d3.select(".chartTooltip text")
                   .text(function () {
-
 
                     return d.data.value === "RE" ? "RE ?"
                       : d.data.value === "HM" ? "Has Met"
@@ -490,13 +452,8 @@ class Chart extends React.Component {
             .style("cursor", "pointer")
             //.style("pointer-events", "none")
             .on("click", function (d) {
-              component.props.animateFauxDOM(800);
-              //console.log(d)
 
               click(d);
-
-
-
 
               if (dataId === d.id) {
                 svg.selectAll(".downIcon").attr("xlink:href", downIcon)
@@ -535,7 +492,7 @@ class Chart extends React.Component {
                   .style("fill", "white")
                   .transition(t)
                   .delay(300)
-                  .attr('height', 150)
+                  .attr('height', 150);
 
                 var percentagesExpanded = expanded.selectAll("g")
                   .data(d.data.data)
@@ -594,7 +551,7 @@ class Chart extends React.Component {
                 percentagesExpanded
                   .transition(t)
                   .delay(300)
-                  .style("opacity", 1)
+                  .style("opacity", 1);
 
                 expanded.append("text")
                   .attr("transform", "translate(103,100)")
@@ -648,7 +605,7 @@ class Chart extends React.Component {
                 //   .duration(750)
                 //   .style("opacity", 1);
 
-                //component.props.animateFauxDOM(200);
+                component.props.animateFauxDOM(200);
               }
               else {
 
@@ -682,15 +639,6 @@ class Chart extends React.Component {
 
           d3.select(this.parentNode).select("path")
             .on("mouseover", function (d) {
-              // console.log(d3.select(this.parentNode).select("g").select(".downIcon"));
-
-              // //d3.select(this.parentNode).select("g").select(".downIcon")
-              // icon//.style("pointer-events", "all")
-              //   .style("opacity", 1);
-
-              // percentageGroup.style("opacity", 0);
-
-              // console.log(dataId, d.id)
 
               svg.selectAll(".percentageGroup")
                 .style("opacity", 1);
@@ -728,19 +676,12 @@ class Chart extends React.Component {
 
             })
             .on("mouseout", function (d) {
-              //component.props.animateFauxDOM(200);
-              //d3.select(this.parentNode).select("g").select(".downIcon")
-              icon//.style("pointer-events", "none")
-                .style("opacity", 0);
+
+              icon.style("opacity", 0);
 
               percentageGroup.style("opacity", 1);
               component.props.animateFauxDOM(200);
-              // //console.log();
 
-              // // d3.select(this.parentNode).select("g").select(".downIcon")
-              // //   .attr("xlink:href", downIcon);
-
-              // percentageGroup.style("opacity", 1);
             })
         }
 
@@ -758,7 +699,7 @@ class Chart extends React.Component {
       nodeUpdate.transition()
         .duration(duration)
         .attr("transform", function (d) {
-          //console.log(d)
+
           if (index && index < d.id) {
             return "translate(" + d.y + "," + (d.x + 150) + ")";
           } else {
@@ -864,7 +805,6 @@ class Chart extends React.Component {
 
       // Toggle children on click.
       // function click(d) {
-      //   console.log(d)
       //   if (d.children) {
       //       d._children = d.children;
       //       d.children = null;
@@ -900,9 +840,6 @@ class Chart extends React.Component {
 
       function click(d) {
 
-
-        // d = d.parent
-
         // if (d.children) {
         //     d._children = d.children;
         //     d.children = null;
@@ -911,16 +848,6 @@ class Chart extends React.Component {
         //     d._children = null;
         //   }
 
-        //node.eachBefore(function (d) {
-        //if (d.data.elementPosition === "end") {
-        // d.y0 = d.y;
-        // d.y = d.y + 200;ß
-        //}
-        //})
-
-        //node.parent.children = null;
-
-        //d.children = null;
         if (dataId === d.id) {
           dataId = null;
           update(d);
@@ -929,9 +856,6 @@ class Chart extends React.Component {
           dataId = d.id;
         }
 
-
-
-        //console.log(dataId,d.id)
       }
 
       component.props.animateFauxDOM(800);
