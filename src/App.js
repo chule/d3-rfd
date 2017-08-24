@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 // import Chart from './Chart'
 // import Tree from './Tree'
-import Circles from './Circles'
+import Circles2 from './Circles2';
 
 class App extends React.Component {
   constructor() {
@@ -843,7 +843,7 @@ class App extends React.Component {
             title={'dataset ' + this.state.dataIndex}
           /> */}
 
-          <Circles
+          <Circles2
             data={this.state.circlesData}
             title={'dataset ' + this.state.dataIndex}
           />
