@@ -132,6 +132,11 @@ class Chart extends React.Component {
             .data(nodes)
             .enter().append("text")
             .attr("class", "label")
+            .style("font-size", 12)
+            .style("font-family", "sans-serif")
+            .style("font-weight", "bold")
+            //.style("fill", "darkgrey")
+            .style("text-anchor", "middle")
             .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
             .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
             .text(function (d) { return d.data.name; });
@@ -150,24 +155,29 @@ class Chart extends React.Component {
             var focus0 = focus; focus = d;
 
             var transition = d3.transition()
-                .duration(750)
+                .duration(550)
                 .tween("zoom", function (d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                     return function (t) { zoomTo(i(t)); };
-                    //component.props.animateFauxDOM(800);
+
                 });
 
-            //console.log(transition.selectAll("text"))
+            // console.log(transition.selectAll("text"))
+            // console.log(svg.selectAll("text"))
 
-            // transition.selectAll("text")
-            //     .filter(function (d) {
-            //         return d.parent === focus || this.style.display === "inline";
-            //     })
-            //     .style("fill-opacity", function (d) { return d.parent === focus ? 1 : 0; })
-            //     .on("start", function (d) { if (d.parent === focus) this.style.display = "inline"; })
-            //     .on("end", function (d) { if (d.parent !== focus) this.style.display = "none"; });
+            // svg.selectAll("text").each(function (d) {
+            //     console.log(d)
+            // })    
 
-            component.props.animateFauxDOM(800);
+            transition.selectAll("text")
+                .filter(function (d) {
+                    console.log(d)
+                    return d.parent === focus || this.style.display === "inline";
+                })
+                .style("fill-opacity", function (d) { return d.parent === focus ? 1 : 0; })
+                .on("start", function (d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function (d) { if (d.parent !== focus) this.style.display = "none"; });
+
         }
 
         function zoomTo(v) {
@@ -175,6 +185,7 @@ class Chart extends React.Component {
             node.attr("transform", function (d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function (d) { return d.r * k; });
 
+            component.props.animateFauxDOM(800);
         }
         //});
 
