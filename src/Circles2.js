@@ -110,7 +110,7 @@ class Chart extends Component {
                 return d.depth === 1 ? "url(#drop-shadow)" : null;
             })
             .on("mouseover", function (d) {
-                console.log(d)
+                //console.log(d)
             })
             .on("click", function (d) {
                 if (focus !== d) {
@@ -120,7 +120,8 @@ class Chart extends Component {
 
             });
 
-        var text = this.g.selectAll("text")
+        //var text = 
+        this.g.selectAll("text")
             .data(nodes)
             .enter().append("text")
             .attr("class", "label")
@@ -142,7 +143,8 @@ class Chart extends Component {
         zoomTo([root.x, root.y, root.r * 2 + this.margin]);
 
         function zoom(d) {
-            var focus0 = focus; focus = d;
+            //var focus0 = focus; 
+            var focus = d;
 
             var transition = d3.transition()
                 .duration(750)
