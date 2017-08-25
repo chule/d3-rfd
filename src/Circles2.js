@@ -89,8 +89,8 @@ class Chart extends Component {
         var circle = this.g.selectAll("circle")
             .data(nodes)
             .enter().append("circle")
-            .attr("class", function (d) { 
-                return d.parent ? d.children ? "node" : "node node--leaf" : "node--root"; 
+            .attr("class", function (d) {
+                return d.parent ? d.children ? "node" : "node node--leaf" : "node--root";
             })
             .style("fill", function (d) {
                 if (!d.parent) {
@@ -144,13 +144,15 @@ class Chart extends Component {
 
         function zoom(d) {
             //var focus0 = focus; 
+
             var focus = d;
+            //console.log(focus.depth);
 
             var transition = d3.transition()
                 .duration(750)
                 .tween("zoom", function (d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + component.margin]);
-                    return function (t) { zoomTo(i(t)); };
+                    return function (t) { zoomTo(i(t), focus.depth); };
                 });
 
             transition.selectAll("text")
@@ -160,10 +162,35 @@ class Chart extends Component {
                 .on("end", function (d) { if (d.parent !== focus) this.style.display = "none"; });
         }
 
-        function zoomTo(v) {
+        function zoomTo(v, focusDepth) {
+
             var k = component.diameter / v[2]; view = v;
-            node.attr("transform", function (d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-            circle.attr("r", function (d) { return d.r * k; });
+            node.attr("transform", function (d) {
+                //console.log(d)
+                return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+            });
+            circle
+                .attr("r", function (d) {
+                    return d.r * k;
+                })
+                .style("display", function (d) {
+                    //console.log(d.depth,focusDepth)
+                    if (!focusDepth) {
+                        return d.depth > 2 ? "none" : "inline";
+                    } else {
+                        return d.depth > focusDepth + 1 ? "none" : "inline";
+                    }
+
+                })
+                .style("pointer-events", function (d) {
+                    //console.log(d.depth,focusDepth)
+                    if (!focusDepth) {
+                        return d.depth > 2 ? "none" : "all";
+                    } else {
+                        return d.depth > focusDepth + 1 ? "none" : "all";
+                    }
+
+                })
         }
 
     }
