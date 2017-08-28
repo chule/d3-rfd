@@ -1,12 +1,19 @@
-.node {
+/* .node {
     cursor: pointer;
     stroke: darkgrey;
-  }
+  } */
   
-.node:hover {
+.node{
+  /* stroke: #3798ED; */
+  stroke-width: 2px;
+  cursor: pointer;
+}
+
+
+/* .blue {
   stroke: #3798ED;
   stroke-width: 1.5px;
-}
+} */
 
 .node--leaf {
   fill: white;

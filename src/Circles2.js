@@ -17,7 +17,7 @@ class Chart extends Component {
             .attr('width', 1140)
             .attr('height', 1140);
 
-        this.margin = 20;
+        this.margin = 50;
         this.diameter = 1140;
         this.g = this.svg.append("g").attr("transform", "translate(" + this.diameter / 2 + "," + this.diameter / 2 + ")");
 
@@ -75,7 +75,13 @@ class Chart extends Component {
 
         let data = props.data;
 
-
+        let colors = {
+            fund: "#1DD8CF",
+            sector: "#BABFC2",
+            subsector: "#E5E9EB",
+            team: "#D97FEB",
+            people: "#FFA8AF"
+        }
 
         var root = d3.hierarchy(data)
             .sum(function (d) { return d.size; })
@@ -96,22 +102,36 @@ class Chart extends Component {
                 if (!d.parent) {
                     return "none";
                 } else {
-                    //return d.children ? color(d.depth) : null;
                     return d.children ? "white" : null;
                 }
             })
-            // .style("stroke", function (d) {
-            //     return d.depth === 2 ? "lightgrey" : null;
-            // })
+            .style("stroke", function (d) {
+                
+                let stroke;
+                
+                if (d.depth < 2) {
+                    stroke = null;
+                } else if (colors[d.data.type]) {
+                    stroke = colors[d.data.type];
+                }
+
+                d.oldStroke = stroke;
+                return stroke;
+            })
             // .style("stroke-width", function (d) {
-            //     return d.depth === 2 ? 2 : null;
+            //     return d.depth >= 2 ? 2 : null;
             // })
             .style("filter", function (d) {
                 return d.depth === 1 ? "url(#drop-shadow)" : null;
             })
             .on("mouseover", function (d) {
-                //console.log(d)
+                if (d.depth > 0) {
+                    d3.select(this).style("stroke","#3798ED");
+                }
             })
+            .on("mouseout", function (d) {
+                d3.select(this).style("stroke",d.oldStroke);
+            })            
             .on("click", function (d) {
                 if (focus !== d) {
                     d3.event.stopPropagation();
@@ -180,7 +200,6 @@ class Chart extends Component {
                     } else {
                         return d.depth > focusDepth + 1 ? "none" : "inline";
                     }
-
                 })
                 .style("pointer-events", function (d) {
                     //console.log(d.depth,focusDepth)
@@ -189,11 +208,9 @@ class Chart extends Component {
                     } else {
                         return d.depth > focusDepth + 1 ? "none" : "all";
                     }
-
                 })
         }
-
-    }
+    };
 
     saveContainer(container) {
         this.container = container;
