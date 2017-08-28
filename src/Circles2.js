@@ -76,6 +76,7 @@ class Chart extends Component {
         let data = props.data;
 
         let colors = {
+            firm: "#A1A6AA",
             fund: "#1DD8CF",
             sector: "#BABFC2",
             subsector: "#E5E9EB",
@@ -110,27 +111,52 @@ class Chart extends Component {
                 let stroke;
                 
                 if (d.depth < 2) {
-                    stroke = null;
+                    return null;
                 } else if (colors[d.data.type]) {
                     stroke = colors[d.data.type];
                 }
 
                 d.oldStroke = stroke;
-                return stroke;
+                return "lightgrey";
             })
             // .style("stroke-width", function (d) {
             //     return d.depth >= 2 ? 2 : null;
             // })
+            .style("pointer-events", "none")//function (d) {
+                //return d.depth > 1 ? "none" : "all";
+                //return "none";
+            //})
             .style("filter", function (d) {
                 return d.depth === 1 ? "url(#drop-shadow)" : null;
             })
             .on("mouseover", function (d) {
-                if (d.depth > 0) {
+                //console.log(d.depth)
+                if (d.depth === 1) {
                     d3.select(this).style("stroke","#3798ED");
+                    //addColor(d);
+                } else {
+                    d3.select(this).style("stroke", function (d) {
+                        
+                        let stroke;
+                        
+                        if (d.depth < 2) {
+                            return null;
+                        } else if (colors[d.data.type]) {
+                            stroke = colors[d.data.type];
+                        }
+        
+                        //d.oldStroke = stroke;
+                        return stroke;
+                    })
                 }
+
+
+
             })
             .on("mouseout", function (d) {
+
                 d3.select(this).style("stroke",d.oldStroke);
+
             })            
             .on("click", function (d) {
                 if (focus !== d) {
@@ -148,7 +174,12 @@ class Chart extends Component {
             .style("font-size", 12)
             .style("font-family", "sans-serif")
             .style("font-weight", "bold")
-            //.style("fill", "darkgrey")
+            .style("fill", function (d) {
+                if (colors[d.data.type]) {
+                    var stroke = colors[d.data.type];
+                }
+                return stroke;
+            })
             .style("text-anchor", "middle")
             .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
             .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
@@ -160,7 +191,7 @@ class Chart extends Component {
         this.svg
             .on("click", function () { zoom(root); });
 
-        zoomTo([root.x, root.y, root.r * 2 + this.margin]);
+        zoomTo([root.x, root.y, root.r * 2 + this.margin],0);
 
         function zoom(d) {
             //var focus0 = focus; 
@@ -182,8 +213,26 @@ class Chart extends Component {
                 .on("end", function (d) { if (d.parent !== focus) this.style.display = "none"; });
         }
 
-        function zoomTo(v, focusDepth) {
 
+        function addColor (n) {
+
+            //console.log(n)
+            circle.style("stroke", function (d) {
+                
+                let stroke;
+                
+                if (d.depth < 2) {
+                    return null;
+                } else if (colors[d.data.type]) {
+                    stroke = colors[d.data.type];
+                }
+
+                //d.oldStroke = stroke;
+                return stroke;
+            })
+        }
+
+        function zoomTo(v, focusDepth) {
             var k = component.diameter / v[2]; view = v;
             node.attr("transform", function (d) {
                 //console.log(d)
@@ -195,16 +244,29 @@ class Chart extends Component {
                 })
                 .style("display", function (d) {
                     //console.log(d.depth,focusDepth)
-                    if (!focusDepth) {
+                    if (focusDepth === 0) {
                         return d.depth > 2 ? "none" : "inline";
                     } else {
                         return d.depth > focusDepth + 1 ? "none" : "inline";
                     }
                 })
+                .style("stroke", function (d) {
+                    
+                    let stroke;
+                    
+                    if (d.depth < 2) {
+                        return null;
+                    } else if (colors[d.data.type]) {
+                        stroke = colors[d.data.type];
+                    }
+    
+                    //d.oldStroke = stroke;
+                    return "lightgrey";
+                })
                 .style("pointer-events", function (d) {
                     //console.log(d.depth,focusDepth)
-                    if (!focusDepth) {
-                        return d.depth > 2 ? "none" : "all";
+                    if (focusDepth === 0) {
+                        return d.depth > 1 ? "none" : "all";
                     } else {
                         return d.depth > focusDepth + 1 ? "none" : "all";
                     }
