@@ -76,7 +76,7 @@ class Chart extends Component {
         let data = props.data;
 
         let colors = {
-            firm: "#A1A6AA",
+            firm: "#3798ED",
             fund: "#1DD8CF",
             sector: "#BABFC2",
             subsector: "#E5E9EB",
@@ -241,7 +241,7 @@ class Chart extends Component {
                             console.log(d)
                             let stroke;
 
-                            if (d.depth < 2) {
+                            if (d.depth < 1) {
                                 return null;
                             } else if (colors[d.data.type]) {
                                 stroke = colors[d.data.type];
