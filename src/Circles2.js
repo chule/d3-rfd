@@ -96,6 +96,7 @@ class Chart extends Component {
         var circle = this.g.selectAll("circle")
             .data(nodes)
             .enter().append("circle")
+            .each(function (d) { d.node = this; })
             .attr("class", function (d) {
                 return d.parent ? d.children ? "node" : "node node--leaf" : "node--root";
             })
@@ -107,9 +108,9 @@ class Chart extends Component {
                 }
             })
             .style("stroke", function (d) {
-                
+
                 let stroke;
-                
+
                 if (d.depth < 2) {
                     return null;
                 } else if (colors[d.data.type]) {
@@ -123,41 +124,38 @@ class Chart extends Component {
             //     return d.depth >= 2 ? 2 : null;
             // })
             .style("pointer-events", "none")//function (d) {
-                //return d.depth > 1 ? "none" : "all";
-                //return "none";
+            //return d.depth > 1 ? "none" : "all";
+            //return "none";
             //})
             .style("filter", function (d) {
                 return d.depth === 1 ? "url(#drop-shadow)" : null;
             })
-            .on("mouseover", function (d) {
-                //console.log(d.depth)
-                if (d.depth === 1) {
-                    d3.select(this).style("stroke","#3798ED");
-                    //addColor(d);
-                } else {
-                    d3.select(this).style("stroke", function (d) {
-                        
-                        let stroke;
-                        
-                        if (d.depth < 2) {
-                            return null;
-                        } else if (colors[d.data.type]) {
-                            stroke = colors[d.data.type];
-                        }
-        
-                        //d.oldStroke = stroke;
-                        return stroke;
-                    })
-                }
+            // .on("mouseover", function (d) {
+            //     console.log(d.ancestors())
+            //     if (d.depth === 1) {
+            //         d3.select(this).style("stroke", "#3798ED");
+            //         //addColor(d);
+            //     } else {
+            //         d3.select(this).style("stroke", function (d) {
+
+            //             let stroke;
+
+            //             if (d.depth < 2) {
+            //                 return null;
+            //             } else if (colors[d.data.type]) {
+            //                 stroke = colors[d.data.type];
+            //             }
+
+            //             //d.oldStroke = stroke;
+            //             return stroke;
+            //         })
+            //     }
 
 
 
-            })
-            .on("mouseout", function (d) {
-
-                d3.select(this).style("stroke",d.oldStroke);
-
-            })            
+            // })
+            .on("mouseover", hovered())
+            .on("mouseout", mouseout())
             .on("click", function (d) {
                 if (focus !== d) {
                     d3.event.stopPropagation();
@@ -191,7 +189,7 @@ class Chart extends Component {
         this.svg
             .on("click", function () { zoom(root); });
 
-        zoomTo([root.x, root.y, root.r * 2 + this.margin],0);
+        zoomTo([root.x, root.y, root.r * 2 + this.margin], 0);
 
         function zoom(d) {
             //var focus0 = focus; 
@@ -214,22 +212,72 @@ class Chart extends Component {
         }
 
 
-        function addColor (n) {
+        // function addColor(n) {
 
-            //console.log(n)
-            circle.style("stroke", function (d) {
-                
-                let stroke;
-                
-                if (d.depth < 2) {
-                    return null;
-                } else if (colors[d.data.type]) {
-                    stroke = colors[d.data.type];
+        //     //console.log(n)
+        //     circle.style("stroke", function (d) {
+
+        //         let stroke;
+
+        //         if (d.depth < 2) {
+        //             return null;
+        //         } else if (colors[d.data.type]) {
+        //             stroke = colors[d.data.type];
+        //         }
+
+        //         //d.oldStroke = stroke;
+        //         return stroke;
+        //     })
+        // }
+
+        function hovered() {
+
+            return function (d) {
+
+                if (d.depth > 0) {
+                    console.log(d.descendants())
+                    d3.selectAll(d.descendants().map(function (d) { return d.node; }))
+                        .style("stroke", function (d) {
+                            console.log(d)
+                            let stroke;
+
+                            if (d.depth < 2) {
+                                return null;
+                            } else if (colors[d.data.type]) {
+                                stroke = colors[d.data.type];
+                            }
+
+                            //d.oldStroke = stroke;
+                            return stroke;
+                        });
                 }
 
-                //d.oldStroke = stroke;
-                return stroke;
-            })
+            };
+        }
+
+        function mouseout() {
+
+            return function (d) {
+
+                if (d.depth > 0) {
+                    console.log(d.descendants())
+                    d3.selectAll(d.descendants().map(function (d) { return d.node; }))
+                        .style("stroke", function (d) {
+                            console.log(d)
+                            let stroke;
+
+                            if (d.depth < 2) {
+                                return null;
+                            } else if (colors[d.data.type]) {
+                                stroke = "lightgrey";
+                            }
+
+                            //d.oldStroke = stroke;
+                            return stroke;
+                        });
+                }
+
+            };
         }
 
         function zoomTo(v, focusDepth) {
@@ -250,19 +298,19 @@ class Chart extends Component {
                         return d.depth > focusDepth + 1 ? "none" : "inline";
                     }
                 })
-                .style("stroke", function (d) {
-                    
-                    let stroke;
-                    
-                    if (d.depth < 2) {
-                        return null;
-                    } else if (colors[d.data.type]) {
-                        stroke = colors[d.data.type];
-                    }
-    
-                    //d.oldStroke = stroke;
-                    return "lightgrey";
-                })
+                // .style("stroke", function (d) {
+
+                //     let stroke;
+
+                //     if (d.depth < 2) {
+                //         return null;
+                //     } else if (colors[d.data.type]) {
+                //         stroke = colors[d.data.type];
+                //     }
+
+                //     //d.oldStroke = stroke;
+                //     return "lightgrey";
+                // })
                 .style("pointer-events", function (d) {
                     //console.log(d.depth,focusDepth)
                     if (focusDepth === 0) {
