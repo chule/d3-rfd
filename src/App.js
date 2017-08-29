@@ -737,7 +737,7 @@ class App extends React.Component {
             ]
           },
           {
-            "name": "Robert may & Sons",
+            "name": "Robert May & Sons",
             "type": "firm",
             "children": [
               {
@@ -774,12 +774,14 @@ class App extends React.Component {
               },
               {
                 "name": "Sector Name",
+                "type": "team",
                 "children": [
                   { "name": "AspectRatioBanker", "size": 1 }
                 ]
               },
               {
                 "name": "Sector Name",
+                "type": "team",
                 "children": [
                   { "name": "AspectRatioBanker", "size": 1 }
                 ]
