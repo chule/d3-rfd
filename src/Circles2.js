@@ -17,6 +17,17 @@ class Chart extends Component {
             .attr('width', 1140)
             .attr('height', 1140);
 
+        let tooltip = d3.select(this.container).append("div")
+            .attr("class", "circlesTooltip")
+            .style("opacity", 0);
+
+        tooltip.append("div").attr("class", "innerTooltip")
+            .style("background", "white");
+
+        tooltip.append("div").attr("class", "buttonTooltip")
+            .style("background", "white")
+            .html("View Profile");
+
         this.margin = 50;
         this.diameter = 1140;
         this.g = this.svg.append("g").attr("transform", "translate(" + this.diameter / 2 + "," + this.diameter / 2 + ")");
@@ -262,12 +273,52 @@ class Chart extends Component {
             return function (d) {
                 //console.log(d)
 
+                // d.descendants().map(function (d) { 
+                //     console.log(d); 
+                // })
+
+
+
                 if (d.depth === 1) {
 
                     d3.select("." + d.data.name.replace(/\W/g, '')).style("fill", colors[d.data.type]);
                 }
 
                 if (d.depth > 0) {
+
+                    let content = d.descendants().reduce(function (obj, d) {
+                        if (d.data.type && (d.data.type !== "firm")) {
+                            obj[d.data.type] += 1;
+
+                        }
+                        return obj;
+                    }, { fund: 0, sector: 0, subsector: 0, team: 0, people: 0 });
+
+
+                    d3.select(component.container).select(".circlesTooltip")
+                        .style("opacity", 1)
+                        .style("background", colors[d.data.type])
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+
+
+                    d3.select(component.container).select(".innerTooltip")
+                        .html("<strong>" + d.data.name + "</strong>"
+                        + "<div class='list'>"
+                        + "<br/>" + content.fund + " Funds"
+                        + "<br/>" + content.sector + " Sectors"
+                        + "<br/>" + content.subsector + " Subsectors"
+                        + "<br/>" + content.team + " Teams"
+                        + "<br/>" + content.people + " People"
+                        + "<div>"
+                        )
+
+
+
+                    d3.select(component.container).select(".buttonTooltip")
+                        .style("background", colors[d.data.type]);
+
+
                     d3.selectAll(d.descendants().map(function (d) { return d.node; }))
                         .style("stroke", function (d) {
                             let stroke;
@@ -288,6 +339,9 @@ class Chart extends Component {
         function mouseout() {
 
             return function (d) {
+
+                d3.select(component.container).select(".circlesTooltip")
+                    .style("opacity", 0);
 
                 if (d.depth === 1) {
 

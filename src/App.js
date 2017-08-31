@@ -678,60 +678,66 @@ class App extends React.Component {
                           }
                         ]
                       },
-                      { "name": "CommunityStructure", "size": 1 },
-                      { "name": "HierarchicalCluster", "size": 1 },
-                      { "name": "MergeEdge", "size": 1 }
+                      { "name": "Team name", "type": "team", "size": 1 },
+                      { "name": "Team name", "type": "team", "size": 1 },
+                      { "name": "Team name", "type": "team", "size": 1 }
                     ]
                   },
-                  { "name": "CommunityStructure", "size": 1 },
-                  { "name": "HierarchicalCluster", "size": 1 },
-                  { "name": "MergeEdge", "size": 1 }
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 }
                 ]
               },
               {
                 "name": "FAF Small-Mid Cap Core",
                 "type": "team",
                 "children": [
-                  { "name": "BetweennessCentrality", "size": 1 },
-                  { "name": "LinkDistance", "size": 1 },
-                  { "name": "MaxFlowMinCut", "size": 1 },
-                  { "name": "ShortestPaths", "size": 1 },
-                  { "name": "SpanningTree", "size": 1 }
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 },
+                  { "name": "Team name", "type": "team", "size": 1 }
                 ]
               },
               {
                 "name": "FAF Small-Mid Cap Core",
                 "type":"sector",
                 "children": [
-                  { "name": "AspectRatioBanker", "size": 1 }
+                  { "name": "Subsector", "type":"subsector", "size": 1 },
+                  { "name": "Subsector", "type":"subsector", "size": 1 }
                 ]
               },
               {
                 "name": "Sector Name",
                 "type":"sector",
                 "children": [
-                  { "name": "AspectRatioBanker", "size": 1 }
+                  { "name": "Subsector", "type":"subsector", "size": 1 },
+                  { "name": "Subsector", "type":"subsector", "size": 1 }
                 ]
               },
               {
                 "name": "Sector Name",
                 "type":"sector",
                 "children": [
-                  { "name": "AspectRatioBanker", "size": 1 }
+                  { "name": "Subsector", "type":"subsector", "size": 1 },
+                  { "name": "Subsector", "type":"subsector", "size": 1 }
                 ]
               },
               {
                 "name": "Sector Name",
                 "type":"sector",
                 "children": [
-                  { "name": "AspectRatioBanker", "size": 1 }
+                  { "name": "Subsector", "type":"subsector", "size": 1 },
+                  { "name": "Subsector", "type":"subsector", "size": 1 }
                 ]
               },
               {
                 "name": "Sector Name",
                 "type":"sector",
                 "children": [
-                  { "name": "AspectRatioBanker", "size": 1 }
+                  { "name": "Subsector", "type":"subsector", "size": 1 },
+                  { "name": "Subsector", "type":"subsector", "size": 1 }
                 ]
               }
             ]
