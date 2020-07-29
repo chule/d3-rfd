@@ -1,7 +1,7 @@
 import React from 'react';
 // import Chart from './Chart'
-// import Tree from './Tree'
-import Circles2 from './Circles2';
+import Tree from './Tree'
+// import Circles2 from './Circles2';
 
 class App extends React.Component {
   constructor() {
@@ -978,15 +978,15 @@ class App extends React.Component {
             data={this.state['dataArray' + this.state.dataIndex]}
             title={'dataset ' + this.state.dataIndex}
           /> */}
-          {/* <Tree
+          <Tree
             data={this.state['treeData' + this.state.dataIndex]}
             title={'dataset ' + this.state.dataIndex}
-          /> */}
+          />
 
-          <Circles2
+          {/* <Circles2
             data={this.state.circlesData}
             title={'dataset ' + this.state.dataIndex}
-          />
+          /> */}
         </div>
 
 
